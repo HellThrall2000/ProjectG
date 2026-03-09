@@ -1,4 +1,5 @@
 import os
+from functools import lru_cache
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 from dotenv import load_dotenv
@@ -33,6 +34,7 @@ class AIClientFactory:
         )
 
     @staticmethod
+    @lru_cache(maxsize=32)
     def get_huggingface_embeddings(model_name: str = "all-MiniLM-L6-v2") -> HuggingFaceEmbeddings:
         """
         Returns a HuggingFace embeddings client.
