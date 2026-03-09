@@ -16,5 +16,5 @@ for file_path in json_files:
             json.dump(data, target_file, ensure_ascii=False, indent=4)
             target_file.write("\n")
 
-    except Exception as e:
-        print(e)
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"Error processing {file_path}: {e}")
