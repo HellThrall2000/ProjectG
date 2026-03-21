@@ -2,9 +2,6 @@ import os
 from functools import lru_cache
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
-from dotenv import load_dotenv
-
-load_dotenv()
 
 class AIClientFactory:
     """
@@ -48,6 +45,9 @@ class AIClientFactory:
         return HuggingFaceEmbeddings(model_name=model_name)
 
 if __name__ == '__main__':
+    from dotenv import load_dotenv
+    load_dotenv()
+
     # Example usage:
     llm = AIClientFactory.get_groq_llm()
     embeddings = AIClientFactory.get_huggingface_embeddings()

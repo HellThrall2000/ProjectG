@@ -1,8 +1,5 @@
 import os
-from dotenv import load_dotenv
 from kaggle.api.kaggle_api_extended import KaggleApi
-
-load_dotenv()
 
 def download_kaggle_dataset(dataset_slug: str, download_path: str = "data") -> None:
     """
@@ -32,6 +29,9 @@ def download_kaggle_dataset(dataset_slug: str, download_path: str = "data") -> N
         print(f"Failed to download {dataset_slug} due to an unexpected error: {e}")
 
 if __name__ == "__main__":
+    from dotenv import load_dotenv
+    load_dotenv()
+
     datasets = [
         "madhurpant/srimad-bhagawatam-bhagavata-purana-dataset",
         "a2m2a2n2/bhagwad-gita-dataset"
