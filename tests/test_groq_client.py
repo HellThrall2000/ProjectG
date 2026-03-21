@@ -30,3 +30,21 @@ def test_get_groq_llm_success():
                 temperature=0.5
             )
             assert llm == mock_chat_groq.return_value
+
+def test_get_huggingface_embeddings_success():
+    """Test that get_huggingface_embeddings returns a HuggingFaceEmbeddings instance."""
+    AIClientFactory.get_huggingface_embeddings.cache_clear()
+
+    with patch("core.groq_client.HuggingFaceEmbeddings") as mock_hf_embeddings:
+        # Test default model name
+        embeddings_default = AIClientFactory.get_huggingface_embeddings()
+        mock_hf_embeddings.assert_called_once_with(model_name="all-MiniLM-L6-v2")
+        assert embeddings_default == mock_hf_embeddings.return_value
+
+        # Clear cache and test custom model name
+        AIClientFactory.get_huggingface_embeddings.cache_clear()
+        mock_hf_embeddings.reset_mock()
+
+        embeddings_custom = AIClientFactory.get_huggingface_embeddings(model_name="custom-model")
+        mock_hf_embeddings.assert_called_once_with(model_name="custom-model")
+        assert embeddings_custom == mock_hf_embeddings.return_value
