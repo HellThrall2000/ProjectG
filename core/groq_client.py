@@ -51,5 +51,4 @@ if __name__ == '__main__':
     # Example usage:
     llm = AIClientFactory.get_groq_llm()
     embeddings = AIClientFactory.get_huggingface_embeddings()
-    print("LLM:", llm)
-    print("Embeddings:", embeddings)
+    print("AI clients initialized successfully.")
