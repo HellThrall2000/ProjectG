@@ -9,6 +9,24 @@ from core.groq_client import AIClientFactory
 
 # ...existing code...
 
+def get_speaker(transliteration: str) -> str:
+    """
+    Extracts the speaker's name from the transliteration text.
+
+    Args:
+        transliteration (str): The transliteration text containing the speaker.
+
+    Returns:
+        str: The extracted speaker name, or "Unknown" if not found.
+    """
+    if not isinstance(transliteration, str):
+        return "Unknown"
+
+    if "uvāca" in transliteration:
+        return transliteration.split(" uvāca")[0].strip()
+    return "Unknown"
+
+
 def ingest_bhagavad_gita(csv_path: str, vector_store_path: str = "./vector_store/philosophical"):
     """
     Ingests data from the Bhagwad_Gita.csv file, extracts the speaker,
@@ -22,11 +40,6 @@ def ingest_bhagavad_gita(csv_path: str, vector_store_path: str = "./vector_store
         raise FileNotFoundError(f"CSV file not found at {csv_path}")
 
     df = pd.read_csv(csv_path)
-
-    def get_speaker(transliteration):
-        if "uvāca" in transliteration:
-            return transliteration.split(" uvāca")[0].strip()
-        return "Unknown"
 
     df["Speaker"] = df["Transliteration"].apply(get_speaker)
 
