@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-dir_path = Path(".")
+dir_path = Path(__file__).parent
 
 # Find all JSON files in the source directory and its subdirectories
 json_files = dir_path.rglob("*.json")
