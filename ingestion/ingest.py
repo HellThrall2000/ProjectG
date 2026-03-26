@@ -39,13 +39,15 @@ def ingest_bhagavad_gita(csv_path: str, vector_store_path: str = "./vector_store
 
     # Create documents
     documents = []
-    for _, row in krishna_df.iterrows():
+    # ⚡ Bolt: Using itertuples(index=False) instead of iterrows() for faster iteration over pandas DataFrame.
+    # iterrows() has significant overhead compared to itertuples() because it creates a Series for each row.
+    for row in krishna_df.itertuples(index=False):
         metadata = {
-            "chapter": row["Chapter"],
-            "verse": row["Verse"],
+            "chapter": row.Chapter,
+            "verse": row.Verse,
             "speaker": "Krishna"
         }
-        document = Document(page_content=row["EngMeaning"], metadata=metadata)
+        document = Document(page_content=row.EngMeaning, metadata=metadata)
         documents.append(document)
 
     # Get embeddings client
