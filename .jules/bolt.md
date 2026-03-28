@@ -1,0 +1,3 @@
+## 2024-05-24 - [Pandas Iteration Bottleneck in Data Ingestion]
+**Learning:** Using `iterrows()` in `ingest.py` to iterate over DataFrame rows for creating LangChain Document objects creates significant overhead. This is because `iterrows()` instantiates a new Pandas Series for every single row, causing a hidden performance bottleneck during vector store ingestion.
+**Action:** Always use `itertuples(index=False)` with attribute-style access (e.g., `row.Chapter`) for creating RAG documents from CSVs in this project to bypass Series creation overhead.
