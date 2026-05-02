@@ -4,7 +4,7 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 
 load_dotenv()
 
-def download_kaggle_dataset(dataset_slug: str, download_path: str = "data") -> None:
+def download_kaggle_dataset(dataset_slug: str, download_path: str = "data", api: KaggleApi = None) -> None:
     """
     Downloads and unzips a dataset from Kaggle using the official API.
     
@@ -16,8 +16,9 @@ def download_kaggle_dataset(dataset_slug: str, download_path: str = "data") -> N
     if not os.path.exists(download_path):
         os.makedirs(download_path)
 
-    api = KaggleApi()
-    api.authenticate()
+    if api is None:
+        api = KaggleApi()
+        api.authenticate()
 
     print(f"Downloading {dataset_slug} to {download_path}...")
     try:
@@ -37,7 +38,11 @@ if __name__ == "__main__":
         "a2m2a2n2/bhagwad-gita-dataset"
     ]
     
+    # ⚡ Bolt: Authenticate once and inject the API instance to avoid IO overhead in the loop
+    api = KaggleApi()
+    api.authenticate()
+
     for ds in datasets:
-        download_kaggle_dataset(ds)
+        download_kaggle_dataset(ds, api=api)
     
     print("Download complete. Verify column names match 'Speaker', 'Text', etc. before running ingest.py.")
