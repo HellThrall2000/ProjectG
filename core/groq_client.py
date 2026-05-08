@@ -13,7 +13,9 @@ class AIClientFactory:
     """
 
     @staticmethod
+    @lru_cache(maxsize=32)
     def get_groq_llm(model_name: str = "llama3-8b-8192", temperature: float = 0.7) -> ChatGroq:
+        # ⚡ Bolt: Authenticate once and reuse connection
         """
         Returns a Groq LLM client.
 
