@@ -11,6 +11,7 @@ from core.groq_client import AIClientFactory
 
 def test_get_groq_llm_missing_api_key():
     """Test that get_groq_llm raises ValueError when GROQ_API_KEY is missing."""
+    AIClientFactory.get_groq_llm.cache_clear()
     with patch("os.getenv") as mock_getenv:
         mock_getenv.return_value = None
         with pytest.raises(ValueError) as excinfo:
@@ -19,6 +20,7 @@ def test_get_groq_llm_missing_api_key():
 
 def test_get_groq_llm_success():
     """Test that get_groq_llm returns a ChatGroq instance when API key is present."""
+    AIClientFactory.get_groq_llm.cache_clear()
     with patch("os.getenv") as mock_getenv:
         mock_getenv.return_value = "fake_api_key"
         with patch("core.groq_client.ChatGroq") as mock_chat_groq:
